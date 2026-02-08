@@ -6,6 +6,8 @@ namespace Celeste
 {
     public class Game1 : Game
     {
+
+        private Texture2D madeLine;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -26,6 +28,7 @@ namespace Celeste
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            madeLine = Content.Load<Texture2D>("idelA");
 
             // TODO: use this.Content to load your game content here
         }
@@ -44,8 +47,11 @@ namespace Celeste
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
 
+            _spriteBatch.Draw(madeLine,Vector2.Zero,Color.White);
+
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }

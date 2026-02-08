@@ -12,7 +12,7 @@ namespace Celeste.Madeline
 
         public void update(Game1 game)
         {
-           dictina
+           
         }
 
         public void draw(SpriteBatch spriteBatch)
