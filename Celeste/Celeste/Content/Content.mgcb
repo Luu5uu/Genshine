@@ -61,6 +61,18 @@
 /processorParam:TextureFormat=Color
 /build:fallSlow.png
 
+#begin flyStaw.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:flyStaw.png
+
 #begin idelA.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -85,6 +97,18 @@
 /processorParam:TextureFormat=Color
 /build:jumpfast.png
 
+#begin normalStaw.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:normalStaw.png
+
 #begin run.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -96,4 +120,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:run.png
+
+#begin standard.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:standard.png
 

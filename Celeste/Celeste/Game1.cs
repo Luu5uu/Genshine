@@ -19,6 +19,13 @@ namespace Celeste
         // ===== Player animation pack =====
         private PlayerAnimations _playerAnims;
 
+        // ===== Item animation pack =====
+        private ItemAnimations _stawA;
+        private ItemAnimations _stawB;
+        // ===== Item initial position =====
+        private Vector2 _posNormalStaw = new Vector2(300, 250);
+        private Vector2 _posFlyStaw = new Vector2(350, 250);
+
         // ===== Player movement data =====
         private Vector2 _playerPos = new Vector2(200, 200); //inital position
         private float _moveSpeed = 150f; // pixels per second
@@ -50,10 +57,14 @@ namespace Celeste
             //initial repo test
             //madeLine = Content.Load<Texture2D>("idelA"); 
 
+            //！！！！！！！！！！Test for ItemAnimations.cs
+            _stawA = ItemAnimations.Build(Content);
+            _stawA.NormalStaw();
+
+            _stawB = ItemAnimations.Build(Content);
+            _stawB.FlyStaw();
 
             //！！！！！！！！！！Test for PlayerAnimations.cs
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // Albert alrady regist all the animations in PlayerAnimations (currently only have run and idle but I will update them)
             _playerAnims = PlayerAnimations.Build(Content);
         }
@@ -87,6 +98,13 @@ namespace Celeste
                 isMoving = true;
             }
 
+            // ===== T: Test specific animation =====
+            if (kb.IsKeyDown(Keys.T)){
+                _faceLeft = false;     
+                _playerAnims.ClimbUp();
+                isMoving = true;
+            }
+
             // ===== if not move then：Idle =====
             if (!isMoving){
                 _playerAnims.Idle();
@@ -94,7 +112,8 @@ namespace Celeste
 
             // =====!!! update animations, you must call this !!!=====
             _playerAnims.Update(gameTime);
-
+            _stawA.Update(gameTime);
+            _stawB.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -115,6 +134,9 @@ namespace Celeste
             // ===== Draw: The animation system internally decides which frame to play + whether to reverse =====
             _playerAnims.Draw(_spriteBatch, _playerPos, Color.White, scale: 2f, faceLeft: _faceLeft);
 
+            // ===== Draw: Item =====
+            _stawA.Draw(_spriteBatch, _posNormalStaw, Color.White, scale: 2f);
+            _stawB.Draw(_spriteBatch, _posFlyStaw, Color.White, scale: 2f);
 
             // ===== End drawing =====
             _spriteBatch.End();

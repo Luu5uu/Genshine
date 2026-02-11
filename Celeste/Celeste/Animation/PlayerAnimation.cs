@@ -7,8 +7,14 @@ namespace Celeste.Animation{
     /// High-level animation states for the player character.
     /// </summary>
     public enum PlayerState{
+        Standard,
         Idle,
-        Run
+        Run,
+        JumpFast,
+        FallSlow,
+        Dash,
+        ClimbUp,
+        Dangling
     }
     /// <summary>
     /// High-level animation facade for the player character.
@@ -31,30 +37,71 @@ namespace Celeste.Animation{
         /// </summary>
         public static PlayerAnimations Build(ContentManager content){
             var anims = new PlayerAnimations();
+            // ---- Standard ----
+            var standard = new AutoAnimation();
+            standard.Detect(content.Load<Texture2D>("standard"), 32, 32, 1f, true);
 
+            // ---- Idle ----
             var idle = new AutoAnimation();
             idle.Detect(content.Load<Texture2D>("idelA"), 32, 32, 8f, true);
 
+            // ---- Run ----
             var run = new AutoAnimation();
             run.Detect(content.Load<Texture2D>("run"), 32, 32, 12f, true);
 
-            anims._controller.Register(PlayerState.Idle, idle, setAsDefault: true);
-            anims._controller.Register(PlayerState.Run, run);
+            // ---- Jump (fast) ----
+            var jumpFast = new AutoAnimation();
+            jumpFast.Detect(content.Load<Texture2D>("jumpfast"), 32, 32, fps: 4f, loop: false);
 
+            // ---- Fall (slow) ----
+            var fallSlow = new AutoAnimation();
+            fallSlow.Detect(content.Load<Texture2D>("fallSlow"), 32, 32, fps: 4f, loop: true);
+
+            // ---- Dash ----
+            var dash = new AutoAnimation();
+            dash.Detect(content.Load<Texture2D>("dash"), 32, 32, fps: 8f, loop: false);
+
+            // ---- Climb Up ----
+            var climbUp = new AutoAnimation();
+            climbUp.Detect(content.Load<Texture2D>("climbup"), 32, 32, fps: 12f, loop: true);
+
+            // ---- Dangling (hang on wall) ----
+            var dangling = new AutoAnimation();
+            dangling.Detect(content.Load<Texture2D>("dangling"), 32, 32, fps: 8f, loop: true);
+
+            anims._controller.Register(PlayerState.Standard,standard, setAsDefault: true);
+            anims._controller.Register(PlayerState.Idle, idle);
+            anims._controller.Register(PlayerState.Run, run);
+            anims._controller.Register(PlayerState.JumpFast, jumpFast);
+            anims._controller.Register(PlayerState.FallSlow, fallSlow);
+            anims._controller.Register(PlayerState.Dash, dash);
+            anims._controller.Register(PlayerState.ClimbUp, climbUp);
+            anims._controller.Register(PlayerState.Dangling, dangling);
             return anims;
         }
+        /// Switches to the Standard animation.
+        public void Standard(bool restart = false)      => _controller.SetState(PlayerState.Standard, restart);
 
-        /// <summary>
         /// Switches to the idle animation.
-        /// </summary>
-        public void Idle(bool restart = false)
-            => _controller.SetState(PlayerState.Idle, restart);
+        public void Idle(bool restart = false)      => _controller.SetState(PlayerState.Idle, restart);
 
-        /// <summary>
         /// Switches to the run animation.
-        /// </summary>
-        public void Run(bool restart = false)
-            => _controller.SetState(PlayerState.Run, restart);
+        public void Run(bool restart = false)       => _controller.SetState(PlayerState.Run, restart);
+
+        /// Switches to the JumpFast animation.
+        public void JumpFast(bool restart = true)   => _controller.SetState(PlayerState.JumpFast, restart);
+
+        /// Switches to the FallSlow animation.
+        public void FallSlow(bool restart = true)  => _controller.SetState(PlayerState.FallSlow, restart);
+
+        /// Switches to the Dash animation.
+        public void Dash(bool restart = true)       => _controller.SetState(PlayerState.Dash, restart);
+
+        /// Switches to the ClimbUp animation.
+        public void ClimbUp(bool restart = false)   => _controller.SetState(PlayerState.ClimbUp, restart);
+
+        /// Switches to the Dangling animation.
+        public void Dangling(bool restart = false)  => _controller.SetState(PlayerState.Dangling, restart);
 
         /// <summary>
         /// Updates the currently active animation.
