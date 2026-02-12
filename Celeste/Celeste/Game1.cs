@@ -18,12 +18,6 @@ namespace Celeste
         private PlayerAnimations _playerAnims;
         private bool _useComposite = true;
 
-        // ===== Item animation pack =====
-        private ItemAnimations _stawA;
-        private ItemAnimations _stawB;
-        private Vector2 _posNormalStaw = new Vector2(300, 250);
-        private Vector2 _posFlyStaw = new Vector2(350, 250);
-
         // ===== Player movement data =====
         private Vector2 _playerPos = new Vector2(200, 200);
         private float _moveSpeed = 150f;
@@ -54,12 +48,7 @@ namespace Celeste
             // Keep the legacy animation pack so the team can compare.
             _playerAnims = PlayerAnimations.Build(Content);
 
-            // Items (unchanged).
-            _stawA = ItemAnimations.Build(Content);
-            _stawA.NormalStaw();
-
-            _stawB = ItemAnimations.Build(Content);
-            _stawB.FlyStaw();
+            // TODO: Re-add items once ItemAnimations is rebuilt on the new clip system.
         }
 
         protected override void Update(GameTime gameTime)
@@ -120,8 +109,6 @@ namespace Celeste
             _maddy.Update(gameTime);
 
             _playerAnims.Update(gameTime);
-            _stawA.Update(gameTime);
-            _stawB.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -141,10 +128,6 @@ namespace Celeste
             {
                 _playerAnims.Draw(_spriteBatch, _playerPos, Color.White, scale: 2f, faceLeft: _faceLeft);
             }
-
-            // ===== Draw items =====
-            _stawA.Draw(_spriteBatch, _posNormalStaw, Color.White, scale: 2f);
-            _stawB.Draw(_spriteBatch, _posFlyStaw, Color.White, scale: 2f);
 
             _spriteBatch.End();
             base.Draw(gameTime);
