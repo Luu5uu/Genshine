@@ -35,6 +35,25 @@ namespace Celeste.Animation{
         private float _accumulator = 0f;
 
         /// <summary>
+        /// Creates an AutoAnimation backed by an <see cref="AnimationClip"/>.
+        /// This bridges the data-driven clip system with the playback engine.
+        /// </summary>
+        public static AutoAnimation FromClip(AnimationClip clip)
+        {
+            var anim = new AutoAnimation();
+            anim.Texture = clip.Texture;
+            anim.FrameWidth = clip.FrameWidth;
+            anim.FrameHeight = clip.FrameHeight;
+            anim.FrameCount = clip.FrameCount;
+            anim.Loop = clip.Loop;
+            anim.FrameTime = clip.Fps > 0f ? 1f / clip.Fps : 1f / 12f;
+            anim.CurrentFrame = 0;
+            anim._accumulator = 0f;
+            anim.IsPlaying = true;
+            return anim;
+        }
+
+        /// <summary>
         /// Initializes the animation by detecting frame count and configuring playback parameters.
         /// This method must be called before Update or Draw.
         /// </summary>
