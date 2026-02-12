@@ -1,4 +1,5 @@
 Animation Pack Usage Guide
+
 The animation system is split into two responsibilities:
 AnimationLoader --- Loads sprite strips from Content and builds animation data.
 AnimationClip --- Stores pure animation metadata (no playback logic).
