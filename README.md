@@ -9,7 +9,7 @@ In Class Code Check: Friday, Feb 20
 
 Tasks assigned to individuals:
 
-Aaron: 
+Aaron: Controller functionality 
 
 Albert: 
 
