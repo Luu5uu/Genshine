@@ -7,9 +7,10 @@ namespace Celeste.Animation
     /// <author> Albert Liu </author>
     public static class AnimationKeys
     {
-        // Player
+        // Player (composite sprite: idle, idleA, runFast, etc.)
         public const string PlayerStandard = "Player/Standard";
         public const string PlayerIdle     = "Player/Idle";
+        public const string PlayerIdleFidgetA = "Player/IdleFidgetA";
         public const string PlayerRun      = "Player/Run";
         public const string PlayerJumpFast = "Player/JumpFast";
         public const string PlayerFallSlow = "Player/FallSlow";

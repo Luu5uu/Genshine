@@ -25,55 +25,27 @@ namespace Celeste.Sprites
             _hair = hair;
         }
 
-        // Factory: builds the full composite sprite. Call once during LoadContent.
+        // Factory: builds from catalog. Call once during LoadContent.
+        // Overload without catalog loads the catalog internally (one place to load).
         public static MaddySprite Build(ContentManager content, GraphicsDevice graphicsDevice = null)
         {
+            var catalog = AnimationLoader.LoadAll(content);
+            return Build(content, catalog, graphicsDevice);
+        }
+
+        public static MaddySprite Build(ContentManager content, AnimationCatalog catalog, GraphicsDevice graphicsDevice = null)
+        {
             var controller = new AnimationController<PlayerState>();
+            var origin = new Vector2(16, 32); // center-bottom (feet), matches Celeste Justify=(0.5,1.0).
 
-            // Center-bottom origin (feet) for all 32x32 sprites.
-            // Matches Celeste's Justify=(0.5, 1.0).
-            var origin = new Vector2(16, 32);
-
-            var idle = new AutoAnimation();
-            idle.Detect(content.Load<Texture2D>("idle"), 32, 32, 0.001f, false);
-            idle.Origin = origin;
-
-            var idleA = new AutoAnimation();
-            idleA.Detect(content.Load<Texture2D>("idleA"), 32, 32, 6f, true);
-            idleA.Origin = origin;
-
-            var run = new AutoAnimation();
-            run.Detect(content.Load<Texture2D>("runFast"), 32, 32, 12f, true);
-            run.Origin = origin;
-
-            var jumpFast = new AutoAnimation();
-            jumpFast.Detect(content.Load<Texture2D>("jumpFast"), 32, 32, 4f, false);
-            jumpFast.Origin = origin;
-
-            var fallSlow = new AutoAnimation();
-            fallSlow.Detect(content.Load<Texture2D>("fallSlow"), 32, 32, 4f, true);
-            fallSlow.Origin = origin;
-
-            var dash = new AutoAnimation();
-            dash.Detect(content.Load<Texture2D>("dash"), 32, 32, 8f, false);
-            dash.Origin = origin;
-
-            var climbUp = new AutoAnimation();
-            climbUp.Detect(content.Load<Texture2D>("climbup"), 32, 32, 12f, true);
-            climbUp.Origin = origin;
-
-            var dangling = new AutoAnimation();
-            dangling.Detect(content.Load<Texture2D>("dangling"), 32, 32, 8f, true);
-            dangling.Origin = origin;
-
-            controller.Register(PlayerState.Idle, idle, setAsDefault: true);
-            controller.Register(PlayerState.IdleFidgetA, idleA);
-            controller.Register(PlayerState.Run, run);
-            controller.Register(PlayerState.JumpFast, jumpFast);
-            controller.Register(PlayerState.FallSlow, fallSlow);
-            controller.Register(PlayerState.Dash, dash);
-            controller.Register(PlayerState.ClimbUp, climbUp);
-            controller.Register(PlayerState.Dangling, dangling);
+            RegisterFromClip(controller, catalog, AnimationKeys.PlayerIdle,         PlayerState.Idle,         setAsDefault: true);
+            RegisterFromClip(controller, catalog, AnimationKeys.PlayerIdleFidgetA,  PlayerState.IdleFidgetA,  setAsDefault: false);
+            RegisterFromClip(controller, catalog, AnimationKeys.PlayerRun,          PlayerState.Run,          setAsDefault: false);
+            RegisterFromClip(controller, catalog, AnimationKeys.PlayerJumpFast,     PlayerState.JumpFast,     setAsDefault: false);
+            RegisterFromClip(controller, catalog, AnimationKeys.PlayerFallSlow,       PlayerState.FallSlow,     setAsDefault: false);
+            RegisterFromClip(controller, catalog, AnimationKeys.PlayerDash,          PlayerState.Dash,         setAsDefault: false);
+            RegisterFromClip(controller, catalog, AnimationKeys.PlayerClimbUp,        PlayerState.ClimbUp,      setAsDefault: false);
+            RegisterFromClip(controller, catalog, AnimationKeys.PlayerDangling,     PlayerState.Dangling,     setAsDefault: false);
 
             var body = new BodySprite<PlayerState>(controller);
             var hair = new HairRenderer();
@@ -81,7 +53,6 @@ namespace Celeste.Sprites
 
             var maddy = new MaddySprite(body, hair);
 
-            // Debug Tab-cycling order.
             maddy._allAnims.Add((PlayerState.Idle, "idle"));
             maddy._allAnims.Add((PlayerState.IdleFidgetA, "idlea"));
             maddy._allAnims.Add((PlayerState.Run, "run"));
@@ -92,6 +63,15 @@ namespace Celeste.Sprites
             maddy._allAnims.Add((PlayerState.Dangling, "dangling"));
 
             return maddy;
+        }
+
+        private static void RegisterFromClip(AnimationController<PlayerState> controller, AnimationCatalog catalog,
+            string clipKey, PlayerState state, bool setAsDefault)
+        {
+            var clip = catalog.Clips[clipKey];
+            var anim = AutoAnimation.FromClip(clip);
+            anim.Origin = new Vector2(16, 32);
+            controller.Register(state, anim, setAsDefault: setAsDefault);
         }
 
         // --- Animation switching ---

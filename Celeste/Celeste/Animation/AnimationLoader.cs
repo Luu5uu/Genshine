@@ -20,15 +20,16 @@ namespace Celeste.Animation
 
             var catalog = new AnimationCatalog();
 
-            // ---- Player ----
-            catalog.Clips[AnimationKeys.PlayerStandard] = BuildClip(content, "standard",  32, 32,  1f,  true);
-            catalog.Clips[AnimationKeys.PlayerIdle]     = BuildClip(content, "idelA",     32, 32,  8f,  true);
-            catalog.Clips[AnimationKeys.PlayerRun]      = BuildClip(content, "run",       32, 32, 12f,  true);
-            catalog.Clips[AnimationKeys.PlayerJumpFast] = BuildClip(content, "jumpfast",  32, 32,  4f,  false);
-            catalog.Clips[AnimationKeys.PlayerFallSlow] = BuildClip(content, "fallSlow",  32, 32,  4f,  true);
-            catalog.Clips[AnimationKeys.PlayerDash]     = BuildClip(content, "dash",      32, 32,  8f,  false);
-            catalog.Clips[AnimationKeys.PlayerClimbUp]  = BuildClip(content, "climbup",   32, 32, 12f,  true);
-            catalog.Clips[AnimationKeys.PlayerDangling] = BuildClip(content, "dangling",  32, 32,  8f,  true);
+            // ---- Player (strips used by MaddySprite: idle, idleA, runFast, etc.) ----
+            catalog.Clips[AnimationKeys.PlayerStandard]   = BuildClip(content, "standard",  32, 32,  1f, true);
+            catalog.Clips[AnimationKeys.PlayerIdle]        = BuildClip(content, "idle",      32, 32,  0.001f, false);
+            catalog.Clips[AnimationKeys.PlayerIdleFidgetA] = BuildClip(content, "idleA",     32, 32,  6f, true);
+            catalog.Clips[AnimationKeys.PlayerRun]         = BuildClip(content, "runFast",   32, 32, 12f, true);
+            catalog.Clips[AnimationKeys.PlayerJumpFast]    = BuildClip(content, "jumpfast",  32, 32,  4f, false);
+            catalog.Clips[AnimationKeys.PlayerFallSlow]    = BuildClip(content, "fallSlow",  32, 32,  4f, true);
+            catalog.Clips[AnimationKeys.PlayerDash]        = BuildClip(content, "dash",      32, 32,  8f, false);
+            catalog.Clips[AnimationKeys.PlayerClimbUp]     = BuildClip(content, "climbup",   32, 32, 12f, true);
+            catalog.Clips[AnimationKeys.PlayerDangling]    = BuildClip(content, "dangling",  32, 32,  8f, true);
 
             // ---- Items ----
             catalog.Clips[AnimationKeys.ItemNormalStaw] = BuildClip(content, "normalStaw", 32, 32, 12f, true);

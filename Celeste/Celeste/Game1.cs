@@ -12,6 +12,7 @@ namespace Celeste
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private AnimationCatalog _catalog;
         private MaddySprite _maddy;
         private PlayerAnimations _playerAnims;  // legacy (press H to compare)
         private bool _useComposite = true;
@@ -49,7 +50,8 @@ namespace Celeste
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _maddy = MaddySprite.Build(Content, GraphicsDevice);
+            _catalog = AnimationLoader.LoadAll(Content);
+            _maddy = MaddySprite.Build(Content, _catalog, GraphicsDevice);
             _playerAnims = PlayerAnimations.Build(Content);
             // TODO: Re-add items once ItemAnimations is rebuilt.
 
