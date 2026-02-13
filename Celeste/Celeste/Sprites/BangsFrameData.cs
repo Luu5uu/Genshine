@@ -24,6 +24,11 @@ namespace Celeste.Sprites
             // ----- idle.png: single frame (basic standing pose) -----
             ["idle"] = new[] { 0 },
 
+            // ----- idleA.png: 12 frames (head-turn fidget) -----
+            // Best guess: right -> center -> left -> hold -> center -> right.
+            // Tune visually with debug frame-stepping.
+            ["idlea"] = new[] { 0, 0, 1, 2, 2, 2, 2, 2, 1, 0, 0, 0 },
+
             // ----- runFast.png: 12 frames -----
             // Head stays in default forward-facing position throughout.
             ["run"] = new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
