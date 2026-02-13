@@ -4,6 +4,9 @@ Group name: Strawberry
 Group members: Aaron, Henry, Isaac, Albert, Sihao, Zijun
 
 Sprint 2: Due Feb 21
+Grader CheckIn: Monday, Feb 16
+In Class Code Check: Friday, Feb 20
+
 Tasks assigned to individuals:
 
 Aaron: 
