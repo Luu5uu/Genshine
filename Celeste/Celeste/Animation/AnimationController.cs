@@ -72,6 +72,15 @@ namespace Celeste.Animation
             _animations[CurrentState].Draw(spriteBatch, position, color, scale, effects);
         }
 
+        /// <summary>
+        /// Draws using Vector2 scale (supports negative X for facing direction).
+        /// </summary>
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, Color color, Vector2 scale)
+        {
+            if (!_hasState) return;
+            _animations[CurrentState].Draw(spriteBatch, position, color, scale);
+        }
+
         public AutoAnimation Get(TState state) => _animations[state];
 
         /// <summary>

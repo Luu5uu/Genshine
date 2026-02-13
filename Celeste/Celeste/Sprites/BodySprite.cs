@@ -46,8 +46,12 @@ namespace Celeste.Sprites
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Color color,
                          float scale = 1f, bool faceLeft = false)
         {
-            var effects = faceLeft ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            _controller.Draw(spriteBatch, position, color, scale, effects);
+            // Use negative X scale for facing instead of SpriteEffects.FlipHorizontally.
+            // This matches Celeste's Player.Render: Sprite.Scale.X *= (int)Facing.
+            // With a center-bottom origin, negative scale flips around the center axis
+            // without the 1px shift that FlipHorizontally causes on even-width sprites.
+            float scaleX = faceLeft ? -scale : scale;
+            _controller.Draw(spriteBatch, position, color, new Vector2(scaleX, scale));
         }
     }
 }

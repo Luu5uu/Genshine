@@ -29,6 +29,13 @@ namespace Celeste.Animation{
 
         public int CurrentFrame { get; private set; } = 0;
 
+        /// <summary>
+        /// Drawing origin within the frame (in source-pixel space).
+        /// Default is (0,0) = top-left for backward compatibility.
+        /// Set to (FrameWidth/2, FrameHeight) for center-bottom (feet) origin.
+        /// </summary>
+        public Vector2 Origin { get; set; } = Vector2.Zero;
+
         // seconds per frame
         public float FrameTime { get; private set; } = 1f / 12f;
 
@@ -98,7 +105,17 @@ namespace Celeste.Animation{
         /// </summary>
         public void Pause(){
             IsPlaying = false;
-        } 
+        }
+
+        /// <summary>
+        /// Sets the current frame directly (clamped to valid range).
+        /// Useful for debug frame-stepping.
+        /// </summary>
+        public void SetFrame(int frame){
+            if (FrameCount <= 0) return;
+            CurrentFrame = ((frame % FrameCount) + FrameCount) % FrameCount;
+            _accumulator = 0f;
+        }
 
         /// <summary>
         /// Stops playback and resets the animation to the first frame.
@@ -142,19 +159,31 @@ namespace Celeste.Animation{
             if (FrameCount <= 0) return;
 
             Rectangle src = new Rectangle(CurrentFrame * FrameWidth, 0, FrameWidth, FrameHeight);
-            spriteBatch.Draw(Texture, position, src, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Texture, position, src, color, 0f, Origin, scale, SpriteEffects.None, 0f);
         }
         
         /// <summary>
-        /// Draws the current frame at the given position using no sprite effects.
+        /// Draws the current frame at the given position with sprite effects.
         /// </summary>
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Color color, float scale, SpriteEffects effects){
             if (FrameCount <= 0) return;
 
             Rectangle src = new Rectangle(CurrentFrame * FrameWidth, 0, FrameWidth, FrameHeight);
-            spriteBatch.Draw(Texture, position, src, color, 0f, Vector2.Zero, scale, effects, 0f);
+            spriteBatch.Draw(Texture, position, src, color, 0f, Origin, scale, effects, 0f);
         }
-        
+
+        /// <summary>
+        /// Draws the current frame using a Vector2 scale (supports negative X for facing).
+        /// This matches Celeste's approach of flipping via Scale.X *= Facing
+        /// instead of SpriteEffects.FlipHorizontally, which avoids the 1px shift
+        /// caused by even-width sprites having no true center pixel.
+        /// </summary>
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, Color color, Vector2 scale){
+            if (FrameCount <= 0) return;
+
+            Rectangle src = new Rectangle(CurrentFrame * FrameWidth, 0, FrameWidth, FrameHeight);
+            spriteBatch.Draw(Texture, position, src, color, 0f, Origin, scale, SpriteEffects.None, 0f);
+        }
 
     }
 }
