@@ -1,3 +1,0 @@
-The player art is an edited version of the celeste character art. I chose to do this so that you can get the exact hair physics and look, in the case you were to use the official Celeste character art (ideally for a fan game) (Also make sure hair segment is -0.5, 2.0 for closest look)
-
-Please take this into mind in the case of using this character art, as you should really only use it for following the video, not your final game that you release. 
