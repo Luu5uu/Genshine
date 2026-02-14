@@ -11,7 +11,7 @@ Tasks assigned to individuals:
 
 Aaron: Controller functionality 
 
-Albert: 
+Albert: Draw and add players animation to the loader of animation system for other possible future actions with "only body"
 
 Henry: 
 
