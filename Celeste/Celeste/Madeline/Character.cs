@@ -20,16 +20,25 @@ namespace Celeste.Character
         public IMadelineState _state;
 
         KeyboardState prev;
-        Boolean jumpPressed;
+        public Boolean jumpPressed;
 
         public IMadelineState standState;
         public IMadelineState runState;
+        public IMadelineState jumpState;
+        public IMadelineState fallState;
 
         public float ground;
         public Vector2 position;
         public float moveX;
         public float velocity = 100;
         public SpriteEffects effect = SpriteEffects.None;
+
+        // Test for jump
+        public float airSpeed = 200f;
+        public float velocityY;
+        public float jumpSpeed = 15f;
+        public float gravity = 60f;
+        public Boolean onGround;
         
 
         public Madeline(AnimationCatalog anima, Vector2 startPos)
@@ -37,10 +46,12 @@ namespace Celeste.Character
             _anima = anima;
             position = startPos;
             ground = position.Y;
+            onGround = true;
 
             standState = new standState();
             runState = new runState();
-
+            jumpState = new jumpState();
+            fallState = new fallState();
 
             _state = new standState();
             _state.setState(this);
@@ -69,6 +80,30 @@ namespace Celeste.Character
 
 
         }
+
+
+        public void physics(float dt)
+        {
+            if (!onGround)
+            {
+                velocityY += gravity * dt;
+
+            }
+            position.Y += velocityY;
+
+
+            if(position.Y>= ground)
+            {
+                position.Y = ground;
+                onGround = true;
+                velocityY = 0f;
+            }
+            else
+            {
+                onGround = false;
+            }
+        }
+
         public void update(GameTime gameTime)
         {
             float dt = (float) gameTime.ElapsedGameTime.TotalSeconds;
@@ -81,7 +116,10 @@ namespace Celeste.Character
 
 
             _state.update(this, dt);
+            physics(dt);
+            
             _player.update(dt);
+            jumpPressed = false;
         }
 
         public void draw(SpriteBatch spriteBatch)

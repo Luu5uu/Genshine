@@ -9,27 +9,27 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Celeste.MadelineStates
 {
-    public class jumpState:IMadelineState
+    internal class fallState:IMadelineState
     {
         public void setState(Madeline m)
         {
-            m.velocityY = -m.jumpSpeed;
-            m.onGround = false;
-            m._player.setCurrentAnimation(m._anima[AnimationKeys.PlayerJumpFast]);
+            m._player.setCurrentAnimation(m._anima[AnimationKeys.PlayerFallSlow]);
         }
         public void update(Madeline m, float dt)
         {
+
             var x = m.moveX * m.airSpeed * dt;
             m.position.X += x;
 
 
-            if (m.velocityY > 0)
-            {
-                m.changeState(m.fallState);
-            }
-
             if (x < 0f) m.effect = SpriteEffects.FlipHorizontally;
             else if (x > 0f) m.effect = SpriteEffects.None;
+
+            if (m.onGround)
+            {
+                m.changeState(m.standState);
+            }
+
         }
         public void exit(Madeline m)
         {

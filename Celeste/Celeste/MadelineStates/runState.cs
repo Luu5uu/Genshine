@@ -19,6 +19,13 @@ namespace Celeste.MadelineStates
         }
         public void update(Madeline m, float dt)
         {
+
+            if (m.onGround && m.jumpPressed)
+            {
+                m.changeState(m.jumpState);
+                return;
+            }
+
             float x = m.moveX;
             if (x == 0f)
             {

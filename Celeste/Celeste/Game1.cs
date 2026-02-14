@@ -17,6 +17,8 @@ namespace Celeste
         private SpriteBatch _spriteBatch;
         private AnimationCatalog _anims = null!;
         Madeline m;
+
+        public Vector2 startPosition;
         
 
         
@@ -40,9 +42,11 @@ namespace Celeste
             // TODO: use this.Content to load your game content here
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            startPosition = new Vector2(Window.ClientBounds.Width / 2f, Window.ClientBounds.Height / 2f);
+
             // Load dictionary of Textures
             _anims = AnimationLoader.LoadAll(Content);
-            m = new Madeline(_anims,Vector2.Zero);
+            m = new Madeline(_anims,startPosition);
 
            
 
