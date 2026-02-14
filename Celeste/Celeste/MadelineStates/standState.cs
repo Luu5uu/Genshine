@@ -24,7 +24,13 @@ namespace Celeste.MadelineStates
                 return;
             }
 
-            // According to moveX(pressed "A" ,"D" or not), change state to run
+            if (m.dashPressed)
+            {
+                m.changeState(m.dashState);
+                return;
+            }
+
+            // If user press A or D, moveX will not be not then change to runstate
             if (m.moveX != 0) m.changeState(m.runState);
 
 

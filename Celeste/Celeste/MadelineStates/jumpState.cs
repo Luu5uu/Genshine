@@ -20,8 +20,13 @@ namespace Celeste.MadelineStates
         }
         public void update(Madeline m, float dt)
         {
+            if (m.dashPressed)
+            {
+                m.changeState(m.dashState);
+                return;
+            }
 
-            // User can control sprite to move in air
+            // This enables user to move horizontally
             var x = m.moveX * m.airSpeed * dt;
             m.position.X += x;
 

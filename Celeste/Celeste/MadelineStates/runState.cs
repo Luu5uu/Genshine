@@ -20,10 +20,16 @@ namespace Celeste.MadelineStates
         }
         public void update(Madeline m, float dt)
         {
-            // Change state
+            // Change state to jump 
             if (m.onGround && m.jumpPressed)
             {
                 m.changeState(m.jumpState);
+                return;
+            }
+
+            if (m.dashPressed)
+            {
+                m.changeState(m.dashState);
                 return;
             }
 

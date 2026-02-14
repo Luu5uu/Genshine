@@ -22,12 +22,15 @@ namespace Celeste.Character
         // Keyboard settings
         KeyboardState prev;
         public Boolean jumpPressed;
+        public Boolean dashPressed;
+        public Boolean isDashing;
 
         // Initialize all states
         public IMadelineState standState;
         public IMadelineState runState;
         public IMadelineState jumpState;
         public IMadelineState fallState;
+        public IMadelineState dashState;
 
         // Settings for horizontal movements
         public float ground;
@@ -55,6 +58,7 @@ namespace Celeste.Character
             runState = new runState();
             jumpState = new jumpState();
             fallState = new fallState();
+            dashState = new dashState();
 
             // Initial state
             _state = new standState();
@@ -70,7 +74,7 @@ namespace Celeste.Character
 
         }
 
-        //  Mainly for keyboard settings
+        //  Mainly for keyboard settings and readings
         public void setMovX()
         {
             var k = Keyboard.GetState();
@@ -79,7 +83,7 @@ namespace Celeste.Character
             else if(k.IsKeyDown(Keys.A)) moveX -= 1f;
 
             jumpPressed = k.IsKeyDown(Keys.Space) && !prev.IsKeyDown(Keys.Space);
-
+            dashPressed = k.IsKeyDown(Keys.Enter) && !prev.IsKeyDown(Keys.Enter);
 
             prev = k;
 
@@ -89,14 +93,18 @@ namespace Celeste.Character
 
         // Necessary elements for jumping and falling
         public void physics(float dt)
-        {   
-            //If not on ground (in air), gravity will influence the upward speed
-            if (!onGround)
+        {
+            if (!isDashing)
             {
-                velocityY += gravity * dt; // Multiply delta time will make it smooth
+                if (!onGround)
+                {
+                    velocityY += gravity * dt;
 
+                }
+                position.Y += velocityY;
             }
-            position.Y += velocityY; // Vertial postion change
+
+
 
             // Whether the sprite is already on ground
             if(position.Y>= ground) 

@@ -8,8 +8,8 @@ namespace Celeste.Character
     public class AnimationPlayer
     {
         public AnimationClip _clip;
-        public int frame;
-        private float timer;
+        public int frame; // Index used to indicate the frame in texture
+        private float timer; // Used to get the time and decide to change frame
 
         public void setCurrentAnimation(AnimationClip clip)
         {
@@ -22,18 +22,19 @@ namespace Celeste.Character
         // Update frames to draw
         public void update(float dt)
         {
-            // Time one frame should play
+            // Duration (in seconds) that a single animation frame should be shown
             float frameDuration = 1f / _clip.Fps;
-            // Calculate time passes
+            // Accumulate elapsed time since last frame advance
             timer += dt;
 
-            while(timer >= frameDuration)
+            // If dt is large (lag spike), advance multiple frames so animation stays time-correct
+            while (timer >= frameDuration)
             {
                 frame++;
                 timer -= frameDuration;
             }
-
-            if(frame >= _clip.FrameCount)
+            // Loop animation back to the start when reaching the end
+            if (frame >= _clip.FrameCount)
             {
                 frame = 0;
             }

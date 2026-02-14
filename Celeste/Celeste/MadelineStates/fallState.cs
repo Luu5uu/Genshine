@@ -18,6 +18,12 @@ namespace Celeste.MadelineStates
         }
         public void update(Madeline m, float dt)
         {
+
+            if (m.dashPressed)
+            {
+                m.changeState(m.dashState);
+                return;
+            }
             // Move in air 
             var x = m.moveX * m.airSpeed * dt;
             m.position.X += x;
